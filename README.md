@@ -10,7 +10,7 @@ Applied Smart Mechanical Systems Engineering Graduation Topic
 
 jstest-gtk is a utility for testing and configuring game controllers or joysticks on Linux systems.
 
-    sudo appropriate updates
+    sudo apt update
     sudo apt install jstest-gtk
 
 ### Install ros-joy package
