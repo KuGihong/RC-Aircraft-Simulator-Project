@@ -1,0 +1,8 @@
+<launch>
+    <node pkg="turtlesim" type="turtlesim_node" name="turtlesim" output="screen"/>
+    <node pkg="test_teleop_joy_turtle" type="test_teleop_joy_turtle.py" name="test_teleop_joy_turtle" output="screen"/>
+    <node pkg="joy" type="joy_node" name="joy"/>
+    <node pkg="rostopic" type="rostopic" name="log_info" args="echo /info"/>
+
+</launch>
+
