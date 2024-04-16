@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="joy_custom" type="joystick_pub.py" name="joy_custom" output="screen"/>
+    <node pkg="joy" type="joy_node" name="joy"/>
+</launch>
+
