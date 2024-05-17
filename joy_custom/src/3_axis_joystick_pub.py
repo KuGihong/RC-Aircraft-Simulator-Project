@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import rospy
-from joy_custom_msg.msg import JoystickValues  # 새로운 메시지 형식을 import
+from joy_custom_msg.msg import JoystickValues  # 커스텀 메시지 import
 
 from sensor_msgs.msg import Joy
 
@@ -16,10 +16,11 @@ class JoystickConverter:
         joystick_msg = JoystickValues()
         joystick_msg.roll = int(((data.axes[0] + 1) / 2) * 4095)  # 0번 축
         joystick_msg.pitch = int(((data.axes[1] + 1) / 2) * 4095)  # 1번 축
+        joystick_msg.yaw = int(((data.axes[3] + 1) / 2) * 4095)  # 1번 축
 
         # 변환된 값을 publish
         self.publisher.publish(joystick_msg)
-        rospy.loginfo('Joystick Values - roll: %d, pitch: %d' % (joystick_msg.roll, joystick_msg.pitch))
+        rospy.loginfo('Joystick Values - roll: %d, pitch: %d, yaw: %d' % (joystick_msg.roll, joystick_msg.pitch, joystick_msg.yaw))
 
 def main():
     try:

@@ -16,6 +16,8 @@ ADDR_TORQUE_ENABLE         = 64
 TORQUE_ENABLE              = 1     # Value for enabling the torque
 TORQUE_DISABLE             = 0     # Value for disabling the torque
 DEVICENAME = '/dev/ttyUSB0'  # Port device name
+MIN_DEG = 180
+MAX_DEG = 360
 
 # Initialize PortHandler and PacketHandler
 portHandler = PortHandler(DEVICENAME)
@@ -39,7 +41,7 @@ def initialize_dynamixel():
         return False
 
     # Enable Dynamixel Torque
-    for dxl_id in [11, 12]:  # DXL_IDs for Dynamixel motors
+    for dxl_id in [11, 12, 13]:  # DXL_IDs for Dynamixel motors
         dxl_comm_result, dxl_error = packetHandler.write1ByteTxRx(portHandler, dxl_id, ADDR_TORQUE_ENABLE, TORQUE_ENABLE)
         if dxl_comm_result != COMM_SUCCESS:
             rospy.logerr("Failed to enable Dynamixel torque for ID %d: %s" % (dxl_id, packetHandler.getTxRxResult(dxl_comm_result)))
@@ -52,15 +54,24 @@ def callback_joystick_values(data):
     # Extract values from JoystickValues message
     roll_value = data.roll
     pitch_value = data.pitch
+    yaw_value = data.yaw
+    
+    # Convert roll, pitch, yaw from -180 to 180 to 0 to 4095 range
+    def convert_to_motor_value(input_value):
+        max_value = DXL_MAXIMUM_POSITION_VALUE
+        converted_value = int(((input_value + MIN_DEG) * max_value) / MAX_DEG)
+        
+        # Check and limit value within the range
+        converted_value = max(DXL_MINIMUM_POSITION_VALUE, min(DXL_MAXIMUM_POSITION_VALUE, converted_value))        
+        return max(DXL_MINIMUM_POSITION_VALUE, min(max_value, converted_value))
 
-    # Check and limit roll_value value within the range
-    roll_value = max(DXL_MINIMUM_POSITION_VALUE, min(DXL_MAXIMUM_POSITION_VALUE, roll_value))
-
-    # Check and limit pitch_value value within the range
-    pitch_value = max(DXL_MINIMUM_POSITION_VALUE, min(DXL_MAXIMUM_POSITION_VALUE, pitch_value))
-
+    # Convert roll, pitch, yaw values
+    convert_roll = convert_to_motor_value(roll_value)
+    convert_pitch = convert_to_motor_value(pitch_value)
+    convert_yaw = convert_to_motor_value(yaw_value)
+    
     # Write goal position to Dynamixel with corresponding DXL_ID
-    for dxl_id, goal_position in zip([11, 12], [roll_value, pitch_value]):
+    for dxl_id, goal_position in zip([11, 12, 13], [convert_roll, convert_pitch, convert_yaw]):
         dxl_comm_result, dxl_error = packetHandler.write4ByteTxRx(portHandler, dxl_id, ADDR_GOAL_POSITION, goal_position)
         if dxl_comm_result != COMM_SUCCESS:
             rospy.logerr("Failed to write goal position for DXL_ID %d: %s" % (dxl_id, packetHandler.getTxRxResult(dxl_comm_result)))
@@ -81,7 +92,7 @@ def dynamixel_control_node():
     rospy.spin()
 
     # Disable Dynamixel Torque
-    for dxl_id in [11, 12]:  # DXL_IDs for Dynamixel motors
+    for dxl_id in [11, 12, 13]:  # DXL_IDs for Dynamixel motors
         dxl_comm_result, dxl_error = packetHandler.write1ByteTxRx(portHandler, dxl_id, ADDR_TORQUE_ENABLE, TORQUE_DISABLE)
         if dxl_comm_result != COMM_SUCCESS:
             rospy.logerr("Failed to disable Dynamixel torque for ID %d: %s" % (dxl_id, packetHandler.getTxRxResult(dxl_comm_result)))
