@@ -1,6 +1,7 @@
 # JoystickValues.msg
 
 Header header	# time stamp
-int32 roll	# 0번 roll 값
-int32 pitch	# 1번 pitch 값
-int32 yaw	# 2번 yaw 값
+float32 roll	# roll, deg
+float32 pitch	# pitch, deg
+float32 yaw	# yaw, deg
+float32 vel	# velocity, m/s

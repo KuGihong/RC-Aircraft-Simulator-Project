@@ -1,5 +1,18 @@
 <launch>
-    <node pkg="joy_custom" type="joystick_pub.py" name="joy_custom" output="screen"/>
-    <node pkg="joy" type="joy_node" name="joy"/>
+  <node pkg="joy_custom" type="joystick_pub.py" name="joy_custom" output="screen"/>
+ 
+  <group ns="stick">
+    <node respawn="true" pkg="joy" type="joy_node" name="joystick1">
+      <param name="dev" type="string" value="/dev/input/js0" />
+      <param name="deadzone" value="0.12" />
+    </node>
+  </group>
+  
+  <group ns="pedal">
+    <node respawn="true" pkg="joy" type="joy_node" name="joystick2">
+      <param name="dev" type="string" value="/dev/input/js1" />
+      <param name="deadzone" value="0.12" />
+    </node>
+  </group>
 </launch>
 
