@@ -1,0 +1,19 @@
+aircraft:
+  # Publish all joint states -----------------------------------
+  joint_state_controller:
+    type: joint_state_controller/JointStateController
+    publish_rate: 50
+
+  # Position Controllers --------------------------------------
+  yaw_joint_position_controller:
+    type: position_controllers/JointPositionController
+    joint: yaw_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  roll_joint_position_controller:
+    type: position_controllers/JointPositionController
+    joint: roll_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+  pitch_joint_position_controller:
+    type: position_controllers/JointPositionController
+    joint: pitch_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}

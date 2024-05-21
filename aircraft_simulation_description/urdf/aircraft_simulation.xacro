@@ -1,0 +1,170 @@
+<?xml version="1.0" ?>
+<robot name="aircraft_simulation" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:include filename="$(find aircraft_simulation_description)/urdf/materials.xacro" />
+<xacro:include filename="$(find aircraft_simulation_description)/urdf/aircraft_simulation.trans" />
+<xacro:include filename="$(find aircraft_simulation_description)/urdf/aircraft_simulation.gazebo" />
+
+<link name="base_link">
+  <inertial>
+    <origin xyz="0.3000000000000002 0.30000000000000016 0.0878825646211479" rpy="0 0 0"/>
+    <mass value="10.0"/>
+    <inertia ixx="2.493593" iyy="2.493593" izz="1.696224" ixy="0.0" iyz="0.0" ixz="0.0"/>
+  </inertial>
+  <visual>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://aircraft_simulation_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://aircraft_simulation_description/meshes/base_link.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="servo_1">
+  <inertial>
+    <origin xyz="-0.00019792100304494298 7.373135435528866e-11 0.017300946486448643" rpy="0 0 0"/>
+    <mass value="0.35964093284808746"/>
+    <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="0.1" iyz="-0.1" ixz="0.1"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.3 -0.3 -1.01" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://aircraft_simulation_description/meshes/servo_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.3 -0.3 -1.01" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://aircraft_simulation_description/meshes/servo_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="plate_1">
+  <inertial>
+    <origin xyz="1.199040866595169e-14 4.470370740250473e-09 0.006509750924387214" rpy="0 0 0"/>
+    <mass value="0.025445288850836596"/>
+    <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="0.1" iyz="0.1" ixz="0.1"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.288 -0.3 -1.046" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://aircraft_simulation_description/meshes/plate_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.288 -0.3 -1.046" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://aircraft_simulation_description/meshes/plate_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="servo_2">
+  <inertial>
+    <origin xyz="0.016249937498381883 -5.2205578548014664e-05 0.015442293450448563" rpy="0 0 0"/>
+    <mass value="0.24400357326508137"/>
+    <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="0.1" iyz="0.1" ixz="-0.1"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.27175 -0.3 -1.068" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://aircraft_simulation_description/meshes/servo_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.27175 -0.3 -1.068" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://aircraft_simulation_description/meshes/servo_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="plate_2">
+  <inertial>
+    <origin xyz="-6.250161160847867e-08 0.01625000447034125 0.015490249075615914" rpy="0 0 0"/>
+    <mass value="0.025445288850836953"/>
+    <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="-0.1" iyz="-0.1" ixz="0.1"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.288 -0.28375 -1.092" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://aircraft_simulation_description/meshes/plate_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.288 -0.28375 -1.092" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://aircraft_simulation_description/meshes/plate_2.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<link name="airplane_1">
+  <inertial>
+    <origin xyz="0.11615657909570432 8.056922562560409e-06 0.13046168075004094" rpy="0 0 0"/>
+    <mass value="1.0"/>
+    <inertia ixx="0.1" iyy="0.1" izz="0.1" ixy="-0.1" iyz="-0.1" ixz="0.1"/>
+  </inertial>
+  <visual>
+    <origin xyz="-0.288 -0.3 -1.114" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://aircraft_simulation_description/meshes/airplane_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+    <material name="silver"/>
+  </visual>
+  <collision>
+    <origin xyz="-0.288 -0.3 -1.114" rpy="0 0 0"/>
+    <geometry>
+      <mesh filename="package://aircraft_simulation_description/meshes/airplane_1.stl" scale="0.001 0.001 0.001"/>
+    </geometry>
+  </collision>
+</link>
+
+<joint name="plane_joint" type="fixed">
+  <origin xyz="0.3 0.3 1.01" rpy="0 0 0"/>
+  <parent link="base_link"/>
+  <child link="servo_1"/>
+</joint>
+
+<joint name="yaw_joint" type="revolute">
+  <origin xyz="-0.012 0.0 0.036" rpy="0 0 0"/>
+  <parent link="servo_1"/>
+  <child link="plate_1"/>
+  <axis xyz="0.0 0.0 -1.0"/>
+  <limit velocity="4.8" effort="1" lower="${-pi*0.5}" upper="${pi*0.5}" />
+</joint>
+
+<joint name="roll_joint" type="revolute">
+  <origin xyz="-0.01625 0.0 0.022" rpy="0 0 0"/>
+  <parent link="plate_1"/>
+  <child link="servo_2"/>
+  <axis xyz="-1.0 0.0 -0.0"/>
+  <limit velocity="4.8" effort="1" lower="${-pi*0.5}" upper="${pi*0.5}" />
+</joint>
+
+<joint name="pitch_joint" type="revolute">
+  <origin xyz="0.01625 -0.01625 0.024" rpy="0 0 0"/>
+  <parent link="servo_2"/>
+  <child link="plate_2"/>
+  <axis xyz="0.0 1.0 0.0"/>
+  <limit velocity="4.8" effort="1" lower="${-pi*0.5}" upper="${pi*0.5}" />
+</joint>
+
+<joint name="base_joint" type="fixed">
+  <origin xyz="0.0 0.01625 0.022" rpy="0 0 0"/>
+  <parent link="plate_2"/>
+  <child link="airplane_1"/>
+</joint>
+
+</robot>

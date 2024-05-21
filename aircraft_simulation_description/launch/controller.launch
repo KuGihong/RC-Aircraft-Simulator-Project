@@ -1,0 +1,9 @@
+<launch>
+
+<rosparam file="$(find aircraft_simulation_description)/launch/controller.yaml" command="load"/>
+<node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="aircraft_simulation" args="yaw_joint_position_controller roll_joint_position_controller pitch_joint_position_controller joint_state_controller "/>
+<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen">
+  <remap from="/joint_states" to="/aircraft_simulation/joint_states"/>
+</node>
+
+</launch>
