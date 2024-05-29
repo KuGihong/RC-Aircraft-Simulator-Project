@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-
 '''''''''''''''''''''''''''''''''''''''''''''
 $sudo killall pigpiod
 pigpio의 데몬이 로우레벨언어로 하드웨어 동작과 연산을 나눠줌
@@ -11,7 +10,6 @@ Parameters
 pulsewidth:= 0 (off),
              500 (0도) - 2500 (180도).
 '''''''''''''''''''''''''''''''''''''''''''''
-
 import pigpio
 import rospy
 from joy_custom_msg.msg import JoystickValues  # Custom message for joystick values
@@ -20,30 +18,40 @@ class ServoController:
     def __init__(self):
         self.pi = pigpio.pi()
         self.servos = {
-            'left_ailerron_servo': 18,
-            'right_ailerron_servo': 19,
-            'elevator_servo': 20,
-            'rudder_servo': 21
+            'left_ailerron_servo': 23,
+            'right_ailerron_servo': 24,
+            'elevator_servo': 25,
+            'rudder_servo': 18
+        }
+        self.servo_params = {
+            'left_ailerron_servo': {'max_pulse_width': 1000, 'min_pulse_width': 535},
+            'right_ailerron_servo': {'max_pulse_width': 1000, 'min_pulse_width': 535},
+            'elevator_servo': {'max_pulse_width': 1300, 'min_pulse_width': 900},
+            'rudder_servo': {'max_pulse_width': 1400, 'min_pulse_width': 885}
         }
         self.max_degree = 180
         self.sum_degree = 360
-        self.roll_max_pulse_width = 1000  # 1000 + 535
-        self.roll_min_pulse_width = 535
 
-    def convert_pulsewidth(self, degree, max_pulse_width, min_pulse_width):
+    def convert_pulsewidth(self, servo_name, degree):
+        params = self.servo_params[servo_name]
+        max_pulse_width = params['max_pulse_width']
+        min_pulse_width = params['min_pulse_width']
         return ((degree + self.max_degree) * max_pulse_width) / self.sum_degree + min_pulse_width
 
     def set_servo_pulsewidth(self, servo_name, degree):
-        pulsewidth = self.convert_pulsewidth(degree)
+        # Reverse the degree for right_ailerron_servo
+        if servo_name == 'left_ailerron_servo' or 'elevator_servo' or 'rudder_servo':
+            degree = -degree
+        pulsewidth = self.convert_pulsewidth(servo_name, degree)
         self.pi.set_servo_pulsewidth(self.servos[servo_name], pulsewidth)
 
     def callback_joystick_values(self, data):
-        print(f"Roll: {data.roll}, Pitch: {data.pitch}, Yaw: {data.yaw}, Throttle: {data.throttle}")
+        print(f"Roll: {data.roll}, Pitch: {data.pitch}, Yaw: {data.yaw}, Throttle: data.throttle")
         
         self.set_servo_pulsewidth('left_ailerron_servo', data.roll)
-        self.set_servo_pulsewidth('right_ailerron_servo', data.pitch)
-        self.set_servo_pulsewidth('elevator_servo', data.yaw)
-        self.set_servo_pulsewidth('rudder_servo', data.throttle)
+        self.set_servo_pulsewidth('right_ailerron_servo', data.roll)
+        self.set_servo_pulsewidth('elevator_servo', data.pitch)
+        self.set_servo_pulsewidth('rudder_servo', data.yaw)
 
     def servo_control_node(self):
         rospy.init_node('servo_control')
