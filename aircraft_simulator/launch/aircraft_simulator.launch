@@ -1,0 +1,10 @@
+<launch>
+
+  <!-- Your nodes -->
+  <node pkg="aircraft_simulator" type="3_axis_control.py" name="axis_control"/>
+  <node pkg="aircraft_simulator" type="plane_control.py" name="plane_control" output="screen"/>
+  <node pkg="aircraft_simulator" type="throttle_control.py" name="throttle_control"/>
+
+  <!-- Stop pigpiod when nodes are shutting down -->
+ 
+</launch>
